@@ -10,9 +10,11 @@ from django.utils.encoding import smart_str
 def index(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
-        # work on file
+        # store file with a route
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
+        # call script to process, arguments: received route file, exported kml file with all roads
+        # TODO: should save the result to media, and return it later
         processed_file = main.start_process(MEDIA_ROOT + '\\' + filename, MEDIA_ROOT + '\croatia.kml')
         """
         processed_file_url = fs.url(processed_file)
