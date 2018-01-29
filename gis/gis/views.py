@@ -23,7 +23,7 @@ def index(request):
         response['X-Sendfile'] = smart_str(processed_file_url)
         # It's usually a good idea to set the 'Content-Length' header too.
         # You can also set any other required headers: Cache-Control, etc.
-        return HttpResponse("OK")
+        return response
     return render(request, 'gis/simple_upload.html')
 
 
