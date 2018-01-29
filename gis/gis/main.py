@@ -70,8 +70,8 @@ def start_process(route_file, country):
 
     # select real roads that are (at least partly) inside edge points and store
     selected_roads = [[(None, None), (None, None)]]
-    polylines_path = polylines_template.format()
-    with open(polylines_template.format(country), 'r') as fpoly:
+    polylines_path = country
+    with open(polylines_path, 'r') as fpoly:
         start_time = time.time()
         i = 0
         for line in fpoly.readlines():

@@ -13,14 +13,15 @@ def index(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         # call script to process, arguments: received route file, exported kml file with all roads
+        #return HttpResponse(MEDIA_ROOT + '\\' + filename + "  " + MEDIA_ROOT + '\croatia.kml')
+
         processed_file = main.start_process(MEDIA_ROOT + '\\' + filename, MEDIA_ROOT + '\croatia.kml')
         processed_file_url = fs.url(processed_file)
         response = HttpResponse(
             content_type='application/force-download')  # mimetype is replaced by content_type for django 1.7
         response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(processed_file)
         response['X-Sendfile'] = smart_str(processed_file_url)
-        # It's usually a good idea to set the 'Content-Length' header too.
-        # You can also set any other required headers: Cache-Control, etc.
         return response
+
     return render(request, 'gis/simple_upload.html')
 
