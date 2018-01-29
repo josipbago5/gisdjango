@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-import os
 from .settings import MEDIA_ROOT
 
 from . import main
@@ -14,7 +13,6 @@ def index(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         # call script to process, arguments: received route file, exported kml file with all roads
-        # TODO: should save the result to media, and return it later
         processed_file = main.start_process(MEDIA_ROOT + '\\' + filename, MEDIA_ROOT + '\croatia.kml')
         processed_file_url = fs.url(processed_file)
         response = HttpResponse(
@@ -26,7 +24,3 @@ def index(request):
         return response
     return render(request, 'gis/simple_upload.html')
 
-
-def upload_file(request):
-    # pokreni skriptu, settings.MEDIA_ROOT + 'croatia_polylines.kml'; 'croatia'
-    return HttpResponse("")
