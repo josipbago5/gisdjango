@@ -1,9 +1,26 @@
 {% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<h1>GIS projekt: Korekcija GPS puta</h1>
+<h3>Odaberite podrucje u kojemu se nalazi ruta koju treba korigirati,<br/>te .kml datoteku sa podacima o ruti.</h3>
+<h3>Nakon uploada skinuti ce se .kml file sa podacima o korigiranoj ruti</h3>
+
+<select style="margin-bottom:20">
+  <option value="volvo">Hrvatska</option>
+  <option value="saab">Slovenija</option>
+  <option value="mercedes">Njemacka</option>
+  <option value="audi">Francuska</option>
+</select>
+
+</html>
+
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="myfile">
     <button type="submit">Upload</button>
-  </form>
+</form>
 {% endblock %}
