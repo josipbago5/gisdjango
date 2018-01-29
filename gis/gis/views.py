@@ -16,7 +16,6 @@ def index(request):
         # call script to process, arguments: received route file, exported kml file with all roads
         # TODO: should save the result to media, and return it later
         processed_file = main.start_process(MEDIA_ROOT + '\\' + filename, MEDIA_ROOT + '\croatia.kml')
-        """
         processed_file_url = fs.url(processed_file)
         response = HttpResponse(
             content_type='application/force-download')  # mimetype is replaced by content_type for django 1.7
@@ -24,7 +23,6 @@ def index(request):
         response['X-Sendfile'] = smart_str(processed_file_url)
         # It's usually a good idea to set the 'Content-Length' header too.
         # You can also set any other required headers: Cache-Control, etc.
-        """
         return HttpResponse("OK")
     return render(request, 'gis/simple_upload.html')
 

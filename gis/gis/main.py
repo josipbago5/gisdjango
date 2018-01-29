@@ -4,6 +4,8 @@ import os
 import time
 from copy import deepcopy
 
+from django.core.files.storage import FileSystemStorage
+
 kml_head = '''<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document id="root_doc">\n'''
@@ -116,4 +118,6 @@ def start_process(route_file, country):
     print('Writing result to {}.'.format(gen_route_path))
     with open(gen_route_path, 'w') as route_file:
         route_file.write(kml_string)
-    return route_file
+        fs = FileSystemStorage()
+        filename = fs.save(gen_route_path, route_file)
+    return filename
