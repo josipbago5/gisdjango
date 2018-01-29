@@ -1,3 +1,4 @@
+import re
 import sys
 import math
 import os
@@ -40,7 +41,7 @@ def to_milimeters(d):
     return d / quantum * conversion_coef
 
 
-def start_process(route_file, country):
+def start_process(route_file, country, MEDIA_ROOT):
     x_max = -sys.float_info.max
     x_min = sys.float_info.max
     y_max = -sys.float_info.max
@@ -76,10 +77,7 @@ def start_process(route_file, country):
         i = 0
         for line in fpoly.readlines():
             if 'LineString' in line:
-                stripped = line\
-                    .replace('<LineString><coordinates>', '')\
-                    .replace('</coordinates></LineString>', '')\
-                    .strip()
+                stripped = re.sub(r'.*<coordinates>', '', line).split('</coordinates>')[0]
                 coordinates = stripped.split(' ')
                 for point in coordinates:
                     x, y = float(point.split(',')[0]), float(point.split(',')[1])
@@ -112,12 +110,14 @@ def start_process(route_file, country):
     for idx, point in enumerate(route_points):
         kml_body += kml_body_template.format(idx, point[1], point[0][0], point[0][1])
     kml_string = kml_head + kml_body + kml_tail
-
-    route_path, _ = os.path.splitext(route_file)
-    gen_route_path = 'gen_' + route_path + '.kml'
-    print('Writing result to {}.'.format(gen_route_path))
-    with open(gen_route_path, 'w') as route_file:
-        route_file.write(kml_string)
-        fs = FileSystemStorage()
-        filename = fs.save(gen_route_path, route_file)
-    return filename
+    print(kml_string)
+    # route_path, _ = os.path.splitext(route_file)
+    # gen_route_path = 'gen_' + route_path + '.kml'
+    gen_filename = 'gen_file_corrected_route.kml'
+    gen_filename_path = MEDIA_ROOT +  '\\' + gen_filename
+    # print('Writing result to {}.'.format(gen_route_path))
+    with open(gen_filename_path, 'w') as f:
+        f.write(kml_string)
+        #fs = FileSystemStorage()
+        #filename = fs.save(gen_filename, file)
+    return gen_filename_path, gen_filename
